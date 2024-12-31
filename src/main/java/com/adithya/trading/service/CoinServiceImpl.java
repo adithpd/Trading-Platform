@@ -1,6 +1,5 @@
 package com.adithya.trading.service;
 
-import java.lang.StackWalker.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +32,7 @@ public class CoinServiceImpl implements CoinService {
 
 
     @Override
-    public String GetTreadingCoins() throws Exception {
+    public String getTreadingCoins() throws Exception {
         String url = "https://api.coingecko.com/api/v3/search/treading";
         RestTemplate restTemplate = new RestTemplate();
         try {
