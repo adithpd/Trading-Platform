@@ -4,12 +4,15 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.adithya.trading.domain.OrderType;
 import com.adithya.trading.model.Order;
 import com.adithya.trading.model.User;
 import com.adithya.trading.model.Wallet;
 import com.adithya.trading.repository.WalletRepository;
 
+@Service
 public class WalletServiceImpl implements WalletService {
     @Autowired
     private WalletRepository walletRepository;
@@ -45,8 +48,21 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public Wallet payOrderPayment(Order order, User user) {
-        return null;
+    public Wallet payOrderPayment(Order order, User user) throws Exception {
+        Wallet wallet = getUserWallet(user);
+        if(order.getOrderType().equals(OrderType.BUY)) {
+            BigDecimal newBalance = wallet.getBalance().subtract(order.getPrice());
+            if(newBalance.compareTo(order.getPrice()) < 0) {
+                throw new Exception("Insufficient Funds for this transaction");
+            }
+            wallet.setBalance(newBalance);
+        }
+        else {
+            BigDecimal newBalance = wallet.getBalance().add(order.getPrice());
+            wallet.setBalance(newBalance);
+        }
+        walletRepository.save(wallet);
+        return wallet;
     }
 
     @Override

@@ -1,31 +1,29 @@
 package com.adithya.trading.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.LocalDate;
+
+import com.adithya.trading.domain.WalletTransactionType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 @Data
 @Entity
-public class OrderItem {
+public class WalletTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private double quantity;
-
     @ManyToOne
-    private Coin coin;
+    private Wallet wallet;
 
-    private double buyPrice;
-    private double sellPrice;
-
-    @JsonIgnore
-    @OneToOne
-    private Order order;
+    private WalletTransactionType type;
+    private LocalDate date;
+    private String transferId;
+    private String purpose;
+    private Long amount;
 }
