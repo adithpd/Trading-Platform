@@ -83,7 +83,7 @@ public class OrderServiceImpl implements OrderService {
         if(oldAsset == null) {
             assetService.createAsset(user, orderItem.getCoin(), orderItem.getQuantity());
         } else {
-            assetService.updateAsset(oldAsset.getId(), quantity)
+            assetService.updateAsset(oldAsset.getId(), quantity);
         }
 
         return savedOrder;
